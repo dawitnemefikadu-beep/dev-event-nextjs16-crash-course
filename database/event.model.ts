@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Schema, model, models, Document } from 'mongoose';
 
 // TypeScript interface for Event document
@@ -178,12 +179,20 @@ function normalizeTime(timeString: string): string {
     return `${hours.toString().padStart(2, '0')}:${minutes}`;
 }
 
-// Create unique index on slug for better performance
-EventSchema.index({ slug: 1 }, { unique: true });
-
+// Note: A unique index for `slug` is already defined via the schema field option `unique: true`.
+// Defining it again here can cause duplicate index creation and runtime warnings in some environments.
 // Create compound index for common queries
 EventSchema.index({ date: 1, mode: 1 });
 
-const Event = models.Event || model<IEvent>('Event', EventSchema);
+// Safely create or retrieve the model
+let Event: mongoose.Model<IEvent>;
+
+try {
+    // Try to get existing model
+    Event = mongoose.model<IEvent>('Event');
+} catch {
+    // Model doesn't exist, create it
+    Event = model<IEvent>('Event', EventSchema);
+}
 
 export default Event;

@@ -3,7 +3,18 @@ import connectDB from '@/lib/mongodb';
 import Event, { IEvent } from '@/database/event.model';
 import {v2 as cloudinary} from 'cloudinary';
 
-export async function POST(req: NextRequest, res: NextRequest){
+// Configure cloudinary (supports both CLOUDINARY_URL or individual credentials)
+if (process.env.CLOUDINARY_URL) {
+    cloudinary.config(process.env.CLOUDINARY_URL);
+} else {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+}
+
+export async function POST(req: NextRequest){
 
 
     try {
@@ -47,7 +58,7 @@ export async function POST(req: NextRequest, res: NextRequest){
         console.error(e);
         return NextResponse.json({ message: 'Event created failed',error: e, status: 500 });
     }
-} {}
+}
 
 export async function GET(){
     try {
