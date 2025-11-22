@@ -1,10 +1,10 @@
-import {notFound} from "next/navigation";
 import Image from "next/image";
 import {IEvent} from "@/database";
 import BookEvent from "@/components/BookEvent";
 import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
 import EventCard from "@/components/EventCard";
 import {cacheLife} from "next/cache";
+import {notFound} from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
