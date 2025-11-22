@@ -4,14 +4,14 @@ import {IEvent} from "@/database";
 import {cacheLife} from "next/cache";
 import {events} from "@/lib/constants"
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = 'https://dev-event-mvawz1jmd-dawit-neme-fikadus-projects.vercel.app'
 
 const Page = async() => {
     'use cache';
     cacheLife('hours')
 
-    // const response=await fetch(`${BASE_URL}/api/events`);
-    // const {events}=await response.json();
+    const response=await fetch(`${BASE_URL}/api/events`);
+    const {events}=await response.json();
     return (
         <section>
             <h1 className="text-center">The Hub for Every Dev <br />Event You Can not Miss</h1>
