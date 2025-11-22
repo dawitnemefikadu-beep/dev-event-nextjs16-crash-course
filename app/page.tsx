@@ -4,13 +4,13 @@ import {IEvent} from "@/database";
 import {cacheLife} from "next/cache";
 //now the base url should work
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 
 const Page = async() => {
     'use cache';
     cacheLife('hours')
 
-    const response=await fetch(`${BASE_URL}/api/events`);
+    const response = await fetch("/api/events", { cache: "no-store" });
     const {events}=await response.json();
     return (
         <section>
