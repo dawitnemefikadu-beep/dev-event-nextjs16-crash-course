@@ -2,7 +2,7 @@ import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import {IEvent} from "@/database";
 import {cacheLife} from "next/cache";
-//now the base url should work
+import {events} from "@/lib/constants";
 
 
 
@@ -10,8 +10,8 @@ const Page = async() => {
     'use cache';
     cacheLife('hours')
 
-    const response = await fetch("/api/events", { cache: "no-store" });
-    const {events}=await response.json();
+    //const response = await fetch("/api/events", { cache: "no-store" });
+    //const {events}=await response.json();
     return (
         <section>
             <h1 className="text-center">The Hub for Every Dev <br />Event You Can not Miss</h1>
