@@ -5,15 +5,17 @@ import {cacheLife} from "next/cache";
 
 
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const baseUrl =
+    process.env.NEXT_PUBLIC_VERCEL_URL
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        : `http://localhost:3000`;
 
 const Page = async () => {
     'use cache';
     cacheLife('hours')
-    const response = await fetch("/api/events", {
+    const response = await fetch(`${baseUrl}/api/events`, {
         cache: "no-store"
     });
-
 
 
     const { events } = await response.json();
