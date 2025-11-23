@@ -1,45 +1,34 @@
 import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
-import {IEvent} from "@/database";
-import {cacheLife} from "next/cache";
+import Event from "@/database/event.model";
+import connectDB from "@/lib/mongodb";
 
+export const dynamic = "force-dynamic";
 
-
-const baseUrl =
-    process.env.NEXT_PUBLIC_VERCEL_URL
-        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-        : `http://localhost:3000`;
-
-const Page = async () => {
-    'use cache';
-    cacheLife('hours')
-    const response = await fetch(`${baseUrl}/api/events`, {
-        cache: "no-store"
-    });
-
-
-    const { events } = await response.json();
+export default async function Page() {
+    await connectDB();
+    const events = await Event.find().sort({ createdAt: -1 });
 
     return (
         <section>
-            <h1 className="text-center">The Hub for Every Dev <br /> Event You Can't Miss</h1>
-            <p className="text-center mt-5">Hackathons, Meetups, and Conferences, All in One Place</p>
-
+            <h1 className="text-center">
+                The Hub for Every Dev <br />Event You Can not Miss
+            </h1>
+            <p className="text-center mt-5">
+                Hackathons, Meetups, and Conferences, All in one place
+            </p>
             <ExploreBtn />
 
             <div className="mt-20 space-y-7">
                 <h3>Featured Events</h3>
-
                 <ul className="events">
-                    {events && events.length > 0 && events.map((event: IEvent) => (
-                        <li key={event.title} className="list-none">
-                            <EventCard {...event} />
+                    {events.map((event) => (
+                        <li key={event._id.toString()} className="list-none">
+                            <EventCard {...event.toObject()} />
                         </li>
                     ))}
                 </ul>
             </div>
         </section>
-    )
+    );
 }
-
-export default Page;
