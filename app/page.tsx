@@ -4,9 +4,7 @@ import {IEvent} from "@/database";
 
 
 const Page = async() => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ? process.env.NEXT_PUBLIC_BASE_URL : ''}/api/events`, {
-        cache: 'no-store'
-    });
+    const response = await fetch('/api/events', { cache: 'no-store' });
 
     const {events}=await response.json();
     return (
