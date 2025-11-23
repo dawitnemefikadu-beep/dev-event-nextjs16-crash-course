@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Schema, model, models, Document, Types } from 'mongoose';
 import Event from './event.model';
 
@@ -72,16 +71,6 @@ BookingSchema.index({ email: 1 });
 
 // Enforce one booking per events per email
 BookingSchema.index({ eventId: 1, email: 1 }, { unique: true, name: 'uniq_event_email' });
-
-// Safely create or retrieve the model
-let Booking: mongoose.Model<IBooking>;
-
-try {
-    // Try to get existing model
-    Booking = mongoose.model<IBooking>('Booking');
-} catch {
-    // Model doesn't exist, create it
-    Booking = model<IBooking>('Booking', BookingSchema);
-}
+const Booking = models.Booking || model<IBooking>('Booking', BookingSchema);
 
 export default Booking;
