@@ -2,9 +2,11 @@ import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import {IEvent} from "@/database";
 
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 const Page = async() => {
-    const response = await fetch('/api/events', { cache: 'no-store' });
+    const response = await fetch(`${BASE_URL}/api/events`, {
+        next: { revalidate: 60 }, // Enables caching + prevents blocking route error
+    });
 
     const {events}=await response.json();
     return (

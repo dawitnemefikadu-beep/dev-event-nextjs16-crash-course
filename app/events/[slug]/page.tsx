@@ -30,8 +30,8 @@ const EventTags=({tags}:{tags:string[]})=>(
         ))}
     </div>
 )
-const EventDetails = async ({params}:{params:Promise<string>}) => {
-    const slug = await params;
+const EventDetails = async ({ params }: { params: { slug: string } }) => {
+    const { slug } = params;
     const request = await fetch(`${BASE_URL}/api/events/${slug}`);
     const {event:{id,description, image, overview, date, time, location,mode, agenda,audience,organizer, tags}}=await request.json()
 
