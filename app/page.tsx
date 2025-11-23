@@ -4,15 +4,17 @@ import {IEvent} from "@/database";
 import {cacheLife} from "next/cache";
 
 
-
+'use cache';
+cacheLife('hours')
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const Page = async () => {
-    'use cache';
-    cacheLife('hours')
+
     const response = await fetch(`${BASE_URL}/api/events`, {
-        cache: "no-store"
+        cache: "no-store",
+        next: { revalidate: 0 },
     });
+
 
     const { events } = await response.json();
 
